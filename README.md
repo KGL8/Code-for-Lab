@@ -6,6 +6,7 @@ Current problems:
 
 1. Random Ray Angle Distribution:
    In writing the code to select photons of certain energy levels and output their angles through space, I've run into a case that I can't figure out if I like. Firstly, it is clear that, to pick a set of random rays in a range defined by polar angle $\theta$, one cannot simply choose $\theta$ values uniformly. This will result in the following undesired distribution:
-   ![image](https://github.com/KGL8/Code-for-Lab/assets/106930751/ede21c74-d6c4-4b39-805e-aa83384abc95)
-  This leads to my case: I am getting a similar distribution, though I can't determine whether it is the fault of the above error or a byproduct of using an exponential ray distribution that favors smaller angles (closer to the center).
-3. 
+   
+   <img src="https://github.com/KGL8/Code-for-Lab/assets/106930751/ede21c74-d6c4-4b39-805e-aa83384abc95" width="200" height="200">
+
+   This leads to my case: I am getting a similar distribution, though I can't determine whether it is the fault of the above error or a byproduct of using an exponential ray distribution that favors smaller angles (closer to the center).
