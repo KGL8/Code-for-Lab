@@ -1,5 +1,8 @@
 # Code-for-Lab
 
+![Sines](https://github.com/user-attachments/assets/4b0b057b-7250-4a5d-ba45-058e71c526d4)
+
+
 ![image](https://github.com/user-attachments/assets/7e9750ba-5e3a-4f1b-88cd-44e73ca45faf)
 
 
