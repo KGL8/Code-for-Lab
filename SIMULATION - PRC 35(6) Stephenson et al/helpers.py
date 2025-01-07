@@ -1,7 +1,21 @@
 # helpers.py
 from imports import *
 
-def sph_car(theta, phi, r=1):
+def vector_to_list(vec, length=1, rescale=True):
+    """
+    Vector to Vispy-friendly format
+
+    Parameters:
+    - vec: Ndarray for directon
+    - length: desired length after rescaling
+    - rescale: Do you want to normalize the vector length?
+    """
+    x = norm(vec)
+    if not rescale:
+        x = 1
+    return [[0,0,0],((vec/x).flatten()*length).tolist()]
+
+def sph_car(theta, phi, r=1.0):
     """
     Spherical coordinates to cartesian coordinates.
 
@@ -72,6 +86,12 @@ def ray_through_aabb(d, bmin, bmax):
     Returns:
     - entry point, exit point
     """
+
+    # temporary? ###############
+    if d[2] < 0:
+        return None, None
+    ############################
+    
     tmin, tmax = float('-inf'), float('inf')
     for i in range(3):
         t1 = bmin[i] / d[i]
@@ -79,7 +99,7 @@ def ray_through_aabb(d, bmin, bmax):
         tmin, tmax = max(tmin, min(t1, t2)), min(tmax, max(t1, t2))
         if tmin > tmax:
             return None, None
-    return d * tmin, d * tmax\
+    return d * tmin, d * tmax
     
 def rotate_point_to_vector(v, point):
     v = v / norm(v)

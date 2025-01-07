@@ -24,8 +24,8 @@ def γ_depth_PDF(x):
 def γ_E_lvl_PDF(x):
     return 1/(x+0.1)
 
-def γ_E_to_θ(x):
-    return 1/(x+0.1)
+def γ_E_to_θ_PDF(x,e):
+    return 2**(-e*x)
 
 # Derived momentum for neutron and proton in CM frame
 EγCM = γ * p * (1 - v)
