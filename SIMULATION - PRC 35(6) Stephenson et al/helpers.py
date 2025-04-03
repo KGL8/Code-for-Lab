@@ -1,7 +1,7 @@
 # helpers.py
 from imports import *
 
-def vector_to_list(vec, length=1, rescale=True):
+def vector_to_list(vec, length=1, start=array([0,0,0]), rescale=True):
     """
     Vector to Vispy-friendly format
 
@@ -10,10 +10,11 @@ def vector_to_list(vec, length=1, rescale=True):
     - length: desired length after rescaling
     - rescale: Do you want to normalize the vector length?
     """
+    vec = vec - start
     x = norm(vec)
     if not rescale:
         x = 1
-    return [[0,0,0],((vec/x).flatten()*length).tolist()]
+    return [start.tolist(),((vec/x).flatten()*length+start).tolist()]
 
 def sph_car(theta, phi, r=1.0):
     """
@@ -81,7 +82,7 @@ def ray_through_aabb(d, bmin, bmax):
     Parameters:
     - d: ray direction
     - bmin: minimum point on the box
-    - bmax: maximum point on the bax
+    - bmax: maximum point on the box
 
     Returns:
     - entry point, exit point
@@ -94,14 +95,33 @@ def ray_through_aabb(d, bmin, bmax):
     
     tmin, tmax = float('-inf'), float('inf')
     for i in range(3):
-        t1 = bmin[i] / d[i]
-        t2 = bmax[i] / d[i]
+        if d[i] == 0:
+            t1 = float('inf')
+            t2 = float('inf')
+            if bmin[i] < 0:
+                t1 = float('-inf')
+            if bmax[i] < 0:
+                t2 = float('-inf')
+        else:
+            t1 = bmin[i] / d[i]
+            t2 = bmax[i] / d[i]
         tmin, tmax = max(tmin, min(t1, t2)), min(tmax, max(t1, t2))
-        if tmin > tmax:
+        if tmin > tmax or tmax == float('inf') or tmax == float('-inf'):
             return None, None
     return d * tmin, d * tmax
-    
-def rotate_point_to_vector(v, point):
+
+def rotate_point_to_vector(v, point, opposite = False):
+    """
+    Rotates a point such that it is the same relative to 'v' as it was the z-axis
+
+    Parameters:
+    - v: vector the point is rotated around to
+    - point: point
+
+    Returns:
+    - rotated point
+    """
+
     v = v / norm(v)
     z_axis = array([0, 0, 1])
     rotation_axis = cross(z_axis, v)
@@ -112,6 +132,9 @@ def rotate_point_to_vector(v, point):
     rotation_axis /= norm(rotation_axis)
     angle = arccos(dot(z_axis, v))
     
+    if opposite:
+        angle = -angle
+
     K = array([[0, -rotation_axis[2], rotation_axis[1]],
                [rotation_axis[2], 0, -rotation_axis[0]],
                [-rotation_axis[1], rotation_axis[0], 0]])

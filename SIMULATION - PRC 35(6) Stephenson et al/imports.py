@@ -1,7 +1,7 @@
 # imports.py
 import numpy
 import matplotlib.pyplot as plt
-from numpy import array, float32, uint32, sin, cos, arccos, sqrt, cross, dot, arctan, tan, mod, pi, append, eye, allclose
+from numpy import array, float32, uint32, sin, cos, arccos, sqrt, cross, dot, arctan, tan, mod, pi, append, eye, allclose,sum,put
 from scipy.integrate import quad
 from numpy.linalg import norm, inv
 from random import random as rnd, uniform as uni
@@ -14,3 +14,6 @@ globals().update({name: globals()[name] for name in dir() if not name.startswith
 
 def vec(a,b,c):
     return array([a,b,c])
+
+def vec2(a,b):
+    return array([a,b])

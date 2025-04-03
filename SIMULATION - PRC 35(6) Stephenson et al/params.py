@@ -1,5 +1,6 @@
 # params.py
-from numpy import sqrt, array, arctan, pi
+import numpy
+from numpy import sqrt, sin, cos, array, arctan
 
 # Physical constants
 p = 800         # momentum of the photon (MeV/c)
@@ -10,6 +11,8 @@ md = 1875.61    # mass of the deuteron (MeV/c^2)
 # Computed values
 v = p / (p + md)        # velocity of the CM frame
 γ = 1 / sqrt(1 - v**2)  # Lorentz factor
+
+a0 = 0.0000000001       # almost zero
 
 # Misc
 γErange = (2.5,20)  # For simulation: we are only interested in firing off photons with γE in γErange.
@@ -40,9 +43,19 @@ T_depth = 3.8    # target depth along z
 D_width = 5      # detector width along x
 D_height = 20    # detector height along y
 D_depth = 10     # detector depth along z
-α1 = pi*1/2
-α2 = pi*3/4
-α3 = pi*31/36
+α1 = numpy.pi*1/2
+α2 = numpy.pi*3/4
+α3 = numpy.pi*31/36
 T_min = array([-T_width / 2, -T_height / 2, O_T_dist])                  # maximum point on target
 T_max = array([T_width / 2, T_height / 2, T_depth + O_T_dist])          # minimum point on target
 θ_max = arctan(sqrt((T_height / 2)**2 + (T_width / 2)**2) / O_T_dist)   # maximum theta value on target
+
+# (a rad, r meters) 
+D_pos = lambda a, r: array((-r*100*sin(a), 0, T_depth / 2 + O_T_dist - r*100*cos(a)))
+D_minmax = lambda p: [p - array((D_width/2, D_height/2, D_depth/2)), p + array((D_width/2, D_height/2, D_depth/2))]
+D_90_pos = D_pos(α1,20)
+D_135_pos = D_pos(α2,20)
+D_155_pos = D_pos(α3,12.8)
+D_90_minmax = D_minmax(D_90_pos)
+D_135_minmax = D_minmax(D_135_pos)
+D_155_minmax = D_minmax(D_155_pos)
